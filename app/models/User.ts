@@ -1,5 +1,3 @@
-import mongoose, { Model, Schema } from "mongoose";
-
 export interface IUser {
     id?: string;
     username: string;
@@ -12,6 +10,8 @@ export interface IUser {
 
     blocking?: IUser[];
     blockedBy?: IUser[];
+
+    stream: IStream;
 
     createdAt: Date;
     updatedAt?: Date;
@@ -39,43 +39,37 @@ export interface IBlock {
     blocked: IUser;
 }
 
-const UserSchema: Schema<IUser> = new Schema(
-    {
-        id: {
-            type: String,
-            default: () => new mongoose.Types.ObjectId().toString(),
-            unique: true,
-        },
-        username: {
-            type: String,
-            unique: true,
-            required: [true, "Please, enter an username."],
-        },
-        imageUrl: {
-            type: String,
-        },
-        externalUserId: {
-            type: String,
-            unique: true,
-            required: [true, "Please, enter a valid external user id."],
-        },
-        bio: {
-            type: String,
-        },
-        createdAt: {
-            type: Date,
-            default: Date.now,
-        },
-        updatedAt: {
-            type: Date,
-            default: Date.now,
-        },
-    },
-    {
-        timestamps: { createdAt: "createdAt", updatedAt: "updatedAt" },
-    }
-);
+export interface IStream {
+    id?: string;
+    name: string;
+    thumbnailUrl?: string;
 
-const User: Model<IUser> =
-    mongoose.models.User || mongoose.model<IUser>("User", UserSchema);
-export default User;
+    ingressId?: string;
+    serverUrl?: string;
+    streamKey?: string;
+
+    isLive: boolean;
+    isChatEnabled: boolean;
+    isChatDelayed: boolean;
+    isChatFollowersOnly: boolean;
+
+    userId?: string;
+    user?: IUser;
+
+    createdAt: Date;
+    updatedAt?: Date;
+}
+
+// Object stream with the default values
+export const getStreamDefaultValues = (username: string): IStream => {
+    const stream: IStream = {
+        name: `${username}'s stream`,
+        isLive: false,
+        isChatEnabled: true,
+        isChatDelayed: false,
+        isChatFollowersOnly: false,
+        createdAt: new Date(),
+    };
+
+    return stream;
+};
