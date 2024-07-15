@@ -8,6 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import { UserAvatar } from "@/components/user-avatar";
 import { LiveBadge } from "@/components/live-badge";
+import { useState, useEffect } from "react";
 
 interface UserItemProps {
     username: string;
@@ -20,6 +21,25 @@ export const UserItem = ({ username, imageUrl, isLive }: UserItemProps) => {
     const { collapsed } = useSidebar((state) => state);
     const href = `/${username}`;
     const isActive = pathName === href;
+    const [showUsername, setShowUsername] = useState(false);
+    const [showLiveBadge, setShowLiveBadge] = useState(false);
+
+    useEffect(() => {
+        if (!collapsed) {
+            const timer = setTimeout(() => {
+                setShowUsername(true);
+                setShowLiveBadge(isLive!); // Show live badge if the user is live
+            }, 300);
+            return () => {
+                clearTimeout(timer);
+                setShowUsername(false);
+                setShowLiveBadge(false);
+            };
+        } else {
+            setShowUsername(false);
+            setShowLiveBadge(false);
+        }
+    }, [collapsed, isLive]);
 
     return (
         <Button
@@ -52,8 +72,22 @@ export const UserItem = ({ username, imageUrl, isLive }: UserItemProps) => {
                         />
                     </div>
 
-                    {!collapsed && <p className="truncate">{username}</p>}
-                    {!collapsed && isLive && <LiveBadge className="ml-auto" />}
+                    {!collapsed && (
+                        <span
+                            className={`truncate transition-opacity duration-100 ease-in-out ${
+                                showUsername ? "opacity-100" : "opacity-0"
+                            }`}
+                        >
+                            {username}
+                        </span>
+                    )}
+                    {!collapsed && showLiveBadge && (
+                        <LiveBadge
+                            className={`ml-auto transition-opacity duration-100 ease-in-out ${
+                                showLiveBadge ? "opacity-100" : "opacity-0"
+                            }`}
+                        />
+                    )}
                 </div>
             </Link>
         </Button>

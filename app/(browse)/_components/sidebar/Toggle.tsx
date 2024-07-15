@@ -1,17 +1,29 @@
 "use client";
 import { ArrowLeftFromLine, ArrowRightFromLine } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
-
 import { useSidebar } from "@/store/use-sidebar";
-
 import { Hint } from "@/components/hint";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useEffect, useState } from "react";
 
 export const Toggle = () => {
     const { collapsed, onExpand, onCollapse } = useSidebar((state) => state);
+    const [showLabel, setShowLabel] = useState(false);
+
+    useEffect(() => {
+        if (!collapsed) {
+            const timer = setTimeout(() => {
+                setShowLabel(true);
+            }, 300);
+
+            return () => clearTimeout(timer);
+        } else {
+            setShowLabel(false); // Reset visibility when collapsed
+        }
+    }, [collapsed]);
 
     const label = collapsed ? "Expand" : "Collapse";
+
     return (
         <>
             {collapsed && (
@@ -29,7 +41,13 @@ export const Toggle = () => {
             )}
             {!collapsed && (
                 <div className="p-3 pl-6 mb-2 flex items-center w-full">
-                    <p className="font-semibold text-primary">For you</p>
+                    <p
+                        className={`font-semibold text-primary transition-opacity duration-200 ${
+                            showLabel ? "opacity-100" : "opacity-0"
+                        }`}
+                    >
+                        For you
+                    </p>
                     <Hint label={label} side="right" asChild>
                         <Button
                             className="h-auto p-2 ml-auto"

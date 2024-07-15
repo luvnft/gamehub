@@ -3,6 +3,7 @@
 import { IUser } from "@/app/models/User";
 import { useSidebar } from "@/store/use-sidebar";
 import { UserItem, UserItemSkeleton } from "./user-item";
+import { useEffect, useState } from "react";
 
 interface RecommendedProps {
     data: IUser[];
@@ -10,12 +11,24 @@ interface RecommendedProps {
 
 export const Recommended = ({ data }: RecommendedProps) => {
     const { collapsed } = useSidebar((state) => state);
-    const showLabel = !collapsed && data.length > 0;
+    const [showLabel, setShowLabel] = useState(false);
+
+    useEffect(() => {
+        if (!collapsed) {
+            const timer = setTimeout(() => {
+                setShowLabel(true);
+            }, 300); // 200ms delay for showing "Recommended" label
+
+            return () => clearTimeout(timer);
+        } else {
+            setShowLabel(false); // Reset visibility when collapsed
+        }
+    }, [collapsed]);
 
     return (
         <div>
             {showLabel && (
-                <div className="pl-6 mb-4">
+                <div className="pl-6 mb-4 transition-opacity duration-1000">
                     <p className="text-sm text-muted-foreground">Recommended</p>
                 </div>
             )}

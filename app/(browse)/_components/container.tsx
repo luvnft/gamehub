@@ -15,11 +15,7 @@ export const Container = ({ children }: ContainerProps) => {
     const { collapsed, onCollapse, onExpand } = useSidebar((state) => state);
 
     useEffect(() => {
-        if (matches) {
-            onCollapse();
-        } else {
-            onExpand();
-        }
+        matches ? onCollapse() : onExpand();
     }, [matches, onCollapse, onExpand]);
 
     return (

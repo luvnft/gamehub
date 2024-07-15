@@ -14,18 +14,6 @@ interface WrapperProps {
 export const Wrapper = ({ children }: WrapperProps) => {
     const isClient = useIsClient();
     const { collapsed } = useSidebar((state) => state);
-    const [showChildren, setShowChildren] = useState(false);
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setShowChildren(true);
-        }, 250);
-
-        return () => {
-            clearTimeout(timer);
-            setShowChildren(false); // Reset visibility when collapsed changes
-        };
-    }, [collapsed]);
 
     if (!isClient) {
         return (
@@ -45,9 +33,7 @@ export const Wrapper = ({ children }: WrapperProps) => {
                 "transition-width duration-500 ease-in-out"
             )}
         >
-            <div className="overflow-y-auto transition-opacity">
-                {showChildren && children}
-            </div>
+            <div className="overflow-hidden">{children}</div>
         </aside>
     );
 };
