@@ -10,9 +10,12 @@ import {
     doc,
     updateDoc,
 } from "firebase/firestore";
+
 import { getSelf } from "./auth-service";
-import { IBlock, IUser } from "@/app/models/User";
 import { getUserById } from "./user-service";
+
+import { IUser } from "@/app/models/IUser";
+import { IBlock } from "@/app/models/IBlock";
 
 export const isBlockedByUser = async (id: string) => {
     try {

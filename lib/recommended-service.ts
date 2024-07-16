@@ -7,7 +7,7 @@ import {
     orderBy,
     doc,
 } from "firebase/firestore";
-import { IUser } from "@/app/models/User";
+import { IUser } from "@/app/models/IUser";
 import { getSelf } from "./auth-service";
 
 export const getRecommended = async (): Promise<IUser[]> => {

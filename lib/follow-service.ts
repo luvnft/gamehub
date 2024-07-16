@@ -11,7 +11,8 @@ import {
     updateDoc,
 } from "firebase/firestore";
 import { getSelf } from "./auth-service";
-import { IUser, IFollow } from "@/app/models/User";
+import { IUser } from "@/app/models/IUser";
+import { IFollow } from "@/app/models/IFollow";
 
 export const getFollowedUsers = async (): Promise<IFollow[]> => {
     try {

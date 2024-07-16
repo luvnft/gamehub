@@ -13,12 +13,21 @@ export const Toggle = () => {
 
     const label = collapsed ? "Expand" : "Collapse";
     const [showDashboard, setShowDashboard] = useState(false);
+    const [showArrows, setShowArrows] = useState(false);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setShowArrows(true);
+        }, 200);
+        setShowArrows(false);
+    }, [collapsed]);
 
     useEffect(() => {
         if (!collapsed) {
             const timer = setTimeout(() => {
                 setShowDashboard(true);
             }, 200);
+
             return () => clearTimeout(timer);
         } else {
             setShowDashboard(false);
@@ -33,7 +42,9 @@ export const Toggle = () => {
                         <Button
                             onClick={onExpand}
                             variant="ghost"
-                            className="h-auto p-2"
+                            className={`h-auto p-2 transition-opacity duration-300 ease-in-out ${
+                                showArrows ? "opacity-100" : "opacity-0"
+                            }`}
                         >
                             <ArrowRightFromLine className="h-4 w-4" />
                         </Button>
@@ -53,7 +64,9 @@ export const Toggle = () => {
                         <Button
                             onClick={onCollapse}
                             variant="ghost"
-                            className="h-auto p-2 ml-auto"
+                            className={`h-auto p-2 ml-auto transition-opacity duration-300 ease-in-out ${
+                                showArrows ? "opacity-100" : "opacity-0"
+                            }`}
                         >
                             <ArrowLeftFromLine className="h-4 w-4" />
                         </Button>

@@ -7,7 +7,7 @@ import {
     getDoc,
     doc,
 } from "firebase/firestore";
-import { IUser } from "@/app/models/User";
+import { IUser } from "@/app/models/IUser";
 
 export const getUserByUsername = async (
     username: string

@@ -10,11 +10,20 @@ export const Toggle = () => {
     const { collapsed, onExpand, onCollapse } = useSidebar((state) => state);
     const [showLabel, setShowLabel] = useState(false);
 
+    const [showArrows, setShowArrows] = useState(false);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setShowArrows(true);
+        }, 200);
+        setShowArrows(false);
+    }, [collapsed]);
+
     useEffect(() => {
         if (!collapsed) {
             const timer = setTimeout(() => {
                 setShowLabel(true);
-            }, 300);
+            }, 200);
 
             return () => clearTimeout(timer);
         } else {
@@ -31,7 +40,9 @@ export const Toggle = () => {
                     <Hint label={label} side="right" asChild>
                         <Button
                             variant="ghost"
-                            className="h-auto p-2"
+                            className={`h-auto p-2 transition-opacity duration-300 ease-in-out ${
+                                showArrows ? "opacity-100" : "opacity-0"
+                            }`}
                             onClick={onExpand}
                         >
                             <ArrowRightFromLine className="h-4 w-4" />
@@ -50,7 +61,9 @@ export const Toggle = () => {
                     </p>
                     <Hint label={label} side="right" asChild>
                         <Button
-                            className="h-auto p-2 ml-auto"
+                            className={`h-auto p-2 ml-auto transition-opacity duration-300 ease-in-out ${
+                                showArrows ? "opacity-100" : "opacity-0"
+                            }`}
                             variant="ghost"
                             onClick={onCollapse}
                         >

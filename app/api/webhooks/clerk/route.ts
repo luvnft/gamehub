@@ -11,7 +11,8 @@ import {
     where,
     getDocs,
 } from "firebase/firestore";
-import { getStreamDefaultValues, IStream, IUser } from "@/app/models/User";
+import { IUser } from "@/app/models/IUser";
+import { IStream, getStreamDefaultValues } from "@/app/models/IStream";
 
 export async function POST(req: Request) {
     const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
@@ -59,24 +60,21 @@ export async function POST(req: Request) {
 
     if (eventType === "user.created") {
         try {
-            const stream: IStream = getStreamDefaultValues(
-                payload.data.username
-            );
-
-            // Now we have to create the stream doc.
-            const streamDoc = await addDoc(streamsCollection, stream);
-            stream.id = streamDoc.id; // Set the stream doc id to the obj stream
-
             const user: IUser = {
                 externalUserId: payload.data.id,
                 username: payload.data.username,
                 imageUrl: payload.data.image_url,
                 createdAt: new Date(),
-                stream,
             };
 
             // Add document user.
-            await addDoc(usersCollection, user);
+            const userAdded = await addDoc(usersCollection, user);
+            user.id = userAdded.id;
+
+            const stream: IStream = getStreamDefaultValues(user);
+
+            // Now we have to create the stream doc.
+            await addDoc(streamsCollection, stream);
         } catch (error) {
             console.error("Error inserting user:", error);
         }
