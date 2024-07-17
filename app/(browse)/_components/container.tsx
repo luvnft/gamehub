@@ -22,7 +22,7 @@ export const Container = ({ children }: ContainerProps) => {
         <>
             <div
                 className={cn(
-                    "flex-1 transition-width duration-500 ease-in-out",
+                    "flex-1 transition-width duration-500 ease-in-out ",
                     collapsed ? "ml-[70px]" : "ml-[70px] lg:ml-60"
                 )}
             >

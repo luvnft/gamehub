@@ -1,6 +1,6 @@
 "use client";
 
-import { IUser } from "@/app/models/User";
+import { IUser } from "@/app/models/IUser";
 import { useSidebar } from "@/store/use-sidebar";
 import { UserItem, UserItemSkeleton } from "./user-item";
 import { useEffect, useState } from "react";
@@ -28,11 +28,11 @@ export const Recommended = ({ data }: RecommendedProps) => {
     return (
         <div>
             {showLabel && (
-                <div className="pl-6 mb-4 transition-opacity duration-1000">
+                <div className="pl-6 mb-4">
                     <p className="text-sm text-muted-foreground">Recommended</p>
                 </div>
             )}
-            <ul className="space-y-2 px-2">
+            <ul className="space-y-4 px-2">
                 {data.map((user) => (
                     <UserItem
                         key={user.id}

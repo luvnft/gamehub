@@ -39,16 +39,12 @@ export const NavItem = ({
         <Button
             asChild
             variant="ghost"
-            className={cn(
-                "w-full h-12",
-                collapsed ? "justify-center" : "justify-start",
-                isActive && "bg-accent"
-            )}
+            className={cn("w-full h-12 justify-start", isActive && "bg-accent")}
         >
             <Link href={href}>
                 <div className="flex items-center gap-x-4">
                     <Icon
-                        className={cn("h-4 w-4", collapsed ? "mr-0" : "mr-2")}
+                        className={cn("h-4 w-4 ", collapsed ? "mr-0" : "mr-2")}
                     />
                     {!collapsed && (
                         <span

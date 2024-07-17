@@ -46,23 +46,16 @@ export const UserItem = ({ username, imageUrl, isLive }: UserItemProps) => {
             asChild
             variant="ghost"
             className={cn(
-                "w-full h-12",
-                collapsed ? "justify-center" : "justify-start",
+                "w-full h-full justify-start",
                 isActive && "bg-accent"
             )}
         >
             <Link href={href}>
-                <div
-                    className={cn(
-                        "flex items-center w-full gap-x-4",
-                        collapsed && "justify-items-center"
-                    )}
-                >
+                <div className={cn("flex items-center w-full gap-x-4")}>
                     <div
                         className={cn(
-                            collapsed
-                                ? "flex justify-center items-center w-full"
-                                : ""
+                            "flex justify-center",
+                            collapsed ? "w-[20px]" : ""
                         )}
                     >
                         <UserAvatar
