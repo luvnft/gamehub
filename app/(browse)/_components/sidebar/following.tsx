@@ -1,6 +1,7 @@
 "use client";
 
-import { IFollow, IUser } from "@/app/models/User";
+import { IUser } from "@/app/models/IUser";
+import { IFollow } from "@/app/models/IFollow";
 import { useSidebar } from "@/store/use-sidebar";
 import { UserItem, UserItemSkeleton } from "./user-item";
 

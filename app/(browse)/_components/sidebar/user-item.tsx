@@ -45,29 +45,19 @@ export const UserItem = ({ username, imageUrl, isLive }: UserItemProps) => {
         <Button
             asChild
             variant="ghost"
-            className={cn(
-                "w-full h-full justify-start",
-                isActive && "bg-accent"
-            )}
+            className={cn("w-full h-full", isActive && "bg-accent")}
         >
             <Link href={href}>
                 <div className={cn("flex items-center w-full gap-x-4")}>
-                    <div
-                        className={cn(
-                            "flex justify-center",
-                            collapsed ? "w-[20px]" : ""
-                        )}
-                    >
-                        <UserAvatar
-                            imageUrl={imageUrl}
-                            username={username}
-                            isLive={isLive}
-                        />
-                    </div>
+                    <UserAvatar
+                        imageUrl={imageUrl}
+                        username={username}
+                        isLive={isLive}
+                    />
 
                     {!collapsed && (
                         <span
-                            className={`truncate transition-opacity duration-100 ease-in-out ${
+                            className={`flex justify-start w-screen truncate transition-opacity duration-300 ease-in-out ${
                                 showUsername ? "opacity-100" : "opacity-0"
                             }`}
                         >
@@ -76,7 +66,7 @@ export const UserItem = ({ username, imageUrl, isLive }: UserItemProps) => {
                     )}
                     {!collapsed && showLiveBadge && (
                         <LiveBadge
-                            className={`ml-auto transition-opacity duration-100 ease-in-out ${
+                            className={`ml-auto transition-opacity duration-300 ease-in-out ${
                                 showLiveBadge ? "opacity-100" : "opacity-0"
                             }`}
                         />

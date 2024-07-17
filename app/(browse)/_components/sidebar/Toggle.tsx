@@ -23,7 +23,7 @@ export const Toggle = () => {
         if (!collapsed) {
             const timer = setTimeout(() => {
                 setShowLabel(true);
-            }, 200);
+            }, 300);
 
             return () => clearTimeout(timer);
         } else {
@@ -53,7 +53,7 @@ export const Toggle = () => {
             {!collapsed && (
                 <div className="p-3 pl-6 mb-2 flex items-center w-full">
                     <p
-                        className={`font-semibold text-primary transition-opacity duration-200 ${
+                        className={`h-4 w-full font-semibold text-primary transition-opacity duration-300 ${
                             showLabel ? "opacity-100" : "opacity-0"
                         }`}
                     >

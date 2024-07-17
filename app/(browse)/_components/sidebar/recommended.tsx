@@ -1,5 +1,4 @@
 "use client";
-
 import { IUser } from "@/app/models/IUser";
 import { useSidebar } from "@/store/use-sidebar";
 import { UserItem, UserItemSkeleton } from "./user-item";
@@ -17,7 +16,7 @@ export const Recommended = ({ data }: RecommendedProps) => {
         if (!collapsed) {
             const timer = setTimeout(() => {
                 setShowLabel(true);
-            }, 300); // 200ms delay for showing "Recommended" label
+            }, 300);
 
             return () => clearTimeout(timer);
         } else {
@@ -27,12 +26,17 @@ export const Recommended = ({ data }: RecommendedProps) => {
 
     return (
         <div>
-            {showLabel && (
-                <div className="pl-6 mb-4">
-                    <p className="text-sm text-muted-foreground">Recommended</p>
-                </div>
-            )}
-            <ul className="space-y-4 px-2">
+            <div className="pl-6 mb-2">
+                <p
+                    className={`text-sm w-full text-muted-foreground transition-opacity duration-300 mb-4 ${
+                        showLabel ? "opacity-100" : "opacity-0"
+                    }`}
+                >
+                    Recommended
+                </p>
+            </div>
+
+            <ul className="space-y-2 px-2">
                 {data.map((user) => (
                     <UserItem
                         key={user.id}
