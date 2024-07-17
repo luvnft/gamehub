@@ -4,6 +4,7 @@ import { IUser } from "@/app/models/IUser";
 import { IFollow } from "@/app/models/IFollow";
 import { useSidebar } from "@/store/use-sidebar";
 import { UserItem, UserItemSkeleton } from "./user-item";
+import { useEffect, useState } from "react";
 
 interface FollowingProps {
     data: (IFollow & { following: IUser })[];
@@ -11,18 +12,34 @@ interface FollowingProps {
 
 export const Following = ({ data }: FollowingProps) => {
     const { collapsed } = useSidebar((state) => state);
+    const [showLabel, setShowLabel] = useState(false);
 
+    useEffect(() => {
+        if (!collapsed) {
+            const timer = setTimeout(() => {
+                setShowLabel(true);
+            }, 300);
+
+            return () => clearTimeout(timer);
+        } else {
+            setShowLabel(false); // Reset visibility when collapsed
+        }
+    }, [collapsed]);
     if (!data.length) {
         return null;
     }
 
     return (
         <div>
-            {!collapsed && (
-                <div className="pl-6 mb-4">
-                    <p className="text-sm text-muted-foreground">Following</p>
-                </div>
-            )}
+            <div className="pl-6 mb-2">
+                <p
+                    className={`text-sm w-full text-muted-foreground transition-opacity duration-300 mb-4 ${
+                        showLabel ? "opacity-100" : "opacity-0"
+                    }`}
+                >
+                    Following
+                </p>
+            </div>
             <ul className="space-y-2 px-2">
                 {data.map((follow) => (
                     <UserItem
