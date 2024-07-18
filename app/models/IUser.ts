@@ -1,3 +1,5 @@
+import { IStream } from "./IStream";
+
 export interface IUser {
     id?: string;
     username: string;
@@ -10,6 +12,8 @@ export interface IUser {
 
     blocking?: IUser[];
     blockedBy?: IUser[];
+
+    stream?: IStream;
 
     createdAt: Date;
     updatedAt?: Date;

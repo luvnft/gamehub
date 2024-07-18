@@ -13,15 +13,15 @@ import {
 import { getSelf } from "./auth-service";
 import { IUser } from "@/app/models/IUser";
 import { IFollow } from "@/app/models/IFollow";
+import { getStreamByUserId } from "./stream-service";
 
 export const getFollowedUsers = async (): Promise<IFollow[]> => {
     try {
         const self = (await getSelf()) as IUser;
 
-        // Obtener los IDs de los usuarios que estás bloqueando
+        // Get blocked users id's
         const blockingIds = self.blocking?.map((user) => user.id) || [];
 
-        // Consulta para obtener los usuarios seguidos que no están bloqueados
         const followsCollection = collection(firestore, "follows");
         const followedUsersQuery = query(
             followsCollection,
@@ -30,22 +30,32 @@ export const getFollowedUsers = async (): Promise<IFollow[]> => {
 
         const followedUsersQuerySnapshot = await getDocs(followedUsersQuery);
 
-        const followedUsers: IFollow[] = [];
+        // Use map to create a promise array
+        const followedUsersPromises = followedUsersQuerySnapshot.docs.map(
+            async (doc) => {
+                const followData = doc.data() as IFollow;
+                const followingId = followData.followingId;
 
-        followedUsersQuerySnapshot.forEach((doc) => {
-            const followData = doc.data() as IFollow;
-            const followingId = followData.followingId;
-
-            // Verify if user is not in block list
-            if (!blockingIds.includes(followingId)) {
-                followedUsers.push({
-                    id: doc.id,
-                    ...followData,
-                });
+                // Verify if user is not blocked
+                if (!blockingIds.includes(followingId)) {
+                    const stream = await getStreamByUserId(
+                        followData.following.id!
+                    );
+                    return {
+                        id: doc.id,
+                        ...followData,
+                        stream,
+                    };
+                }
+                return null;
             }
-        });
+        );
 
-        return followedUsers;
+        // Wait to resolve all promises
+        const followedUsers = await Promise.all(followedUsersPromises);
+
+        // Filter null (blocked users)
+        return followedUsers.filter((user) => user !== null) as IFollow[];
     } catch (error) {
         console.error("Error fetching followed users:", error);
         return [];

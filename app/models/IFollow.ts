@@ -1,3 +1,4 @@
+import { IStream } from "./IStream";
 import { IUser } from "./IUser";
 
 export interface IFollow {
@@ -11,4 +12,6 @@ export interface IFollow {
 
     createAt: Date;
     updatedAt: Date;
+
+    stream?: IStream;
 }

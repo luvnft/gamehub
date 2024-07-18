@@ -7,17 +7,23 @@ import {
     orderBy,
     doc,
 } from "firebase/firestore";
+
 import { IUser } from "@/app/models/IUser";
+import { IStream } from "@/app/models/IStream";
+
 import { getSelf } from "./auth-service";
+import { getStreamByUserId } from "./stream-service";
 
 export const getRecommended = async (): Promise<IUser[]> => {
     let userId: string = "";
-    let recommendedUsers: IUser[] = [];
+    const recommendedUsers: IUser[] = [];
 
     try {
         const self = await getSelf();
         userId = self.id;
-    } catch (error) {}
+    } catch (error) {
+        console.error("Error getting self:", error);
+    }
 
     try {
         const usersCollection = collection(firestore, "users");
@@ -27,17 +33,29 @@ export const getRecommended = async (): Promise<IUser[]> => {
         );
         const querySnapshot = await getDocs(allUsersQuery);
 
-        // If you are not logged in, we can recommend all users or only 10 for example.
+        // If you are not logged in, we can recommend all users or only 10, for example.
         if (!userId) {
-            querySnapshot.docs.slice(0, 10).forEach((doc) => {
-                const userData = doc.data();
-                recommendedUsers.push({
-                    username: userData.username,
-                    imageUrl: userData.imageUrl,
-                    externalUserId: userData.externalUserId,
-                    createdAt: userData.createdAt.toDate(),
+            // Use map to create an array of promises
+            const promises = querySnapshot.docs
+                .slice(0, 10)
+                .map(async (doc) => {
+                    const userData = doc.data();
+                    const stream: IStream = (await getStreamByUserId(
+                        doc.id
+                    )) as IStream;
+
+                    return {
+                        username: userData.username,
+                        imageUrl: userData.imageUrl,
+                        externalUserId: userData.externalUserId,
+                        createdAt: userData.createdAt.toDate(),
+                        stream,
+                    };
                 });
-            });
+
+            // Wait for all promises to resolve
+            const results = await Promise.all(promises);
+            recommendedUsers.push(...results);
 
             return recommendedUsers;
         }
@@ -67,7 +85,8 @@ export const getRecommended = async (): Promise<IUser[]> => {
             (blocking: any) => blocking.id
         );
 
-        querySnapshot.forEach((doc) => {
+        // Use map to create an array of promises
+        const promises = querySnapshot.docs.map(async (doc) => {
             const userData = doc.data();
             if (
                 userData &&
@@ -76,17 +95,30 @@ export const getRecommended = async (): Promise<IUser[]> => {
                 !blockingList.includes(doc.id) &&
                 !blockedByList.includes(doc.id)
             ) {
-                recommendedUsers.push({
+                const stream = await getStreamByUserId(doc.id);
+
+                return {
                     id: doc.id,
                     username: userData.username,
                     imageUrl: userData.imageUrl,
                     externalUserId: userData.externalUserId,
                     createdAt: userData.createdAt.toDate(),
-                });
+                    stream,
+                };
             }
+            return null; // Return null if the user is not recommended
         });
+
+        // Wait for all promises to resolve
+        const results = await Promise.all(promises);
+
+        // Filter out null values (non-recommended users)
+        recommendedUsers.push(
+            ...(results.filter((user) => user !== null) as IUser[])
+        );
     } catch (error) {
         console.error("Error getting recommended users:", error);
     }
+
     return recommendedUsers;
 };
