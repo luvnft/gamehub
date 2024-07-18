@@ -44,17 +44,18 @@ export const getUserByUsername = async (
     return null;
 };
 
-export const getUserById = async (id: string) => {
+export const getUserById = async (id: string): Promise<IUser> => {
     // Fetch other user's data
     const usersCollection = collection(firestore, "users");
-    const otherUserDocRef = doc(usersCollection, id);
-    const otherUserDoc = await getDoc(otherUserDocRef);
+    const userDocRef = doc(usersCollection, id);
+    const userDoc = await getDoc(userDocRef);
 
-    if (!otherUserDoc.exists()) {
+    if (!userDoc.exists()) {
         throw new Error("User not found");
     }
 
-    const otherUser = otherUserDoc.data() as IUser;
+    const user = userDoc.data() as IUser;
+    user.id = userDoc.id;
 
-    return otherUser;
+    return user;
 };

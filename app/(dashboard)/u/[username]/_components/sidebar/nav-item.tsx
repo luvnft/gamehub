@@ -23,12 +23,15 @@ export const NavItem = ({
 }: NavItemProps) => {
     const { collapsed } = useCreatorSidebar((state) => state);
     const [showLabel, setShowLabel] = useState(false);
+    const [showIcon, setShowIcon] = useState(false);
 
     useEffect(() => {
         if (!collapsed) {
             const timer = setTimeout(() => {
                 setShowLabel(true);
-            }, 200);
+                setShowIcon(true);
+            }, 300);
+
             return () => clearTimeout(timer);
         } else {
             setShowLabel(false);
@@ -44,12 +47,16 @@ export const NavItem = ({
             <Link href={href}>
                 <div className="flex items-center gap-x-4">
                     <Icon
-                        className={cn("h-4 w-4 ", collapsed ? "mr-0" : "mr-2")}
+                        className={cn(
+                            "h-4 w-4 transition-opacity duration-300 ease-in-out",
+                            collapsed ? "mr-0" : "mr-2",
+                            showIcon ? "opacity-100" : "opacity-0"
+                        )}
                     />
                     {!collapsed && (
                         <span
                             className={cn(
-                                "transition-opacity duration-200 ease-in-out",
+                                "transition-opacity duration-300 ease-in-out",
                                 showLabel ? "opacity-100" : "opacity-0"
                             )}
                         >

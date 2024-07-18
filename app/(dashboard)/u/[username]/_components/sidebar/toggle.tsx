@@ -18,7 +18,7 @@ export const Toggle = () => {
     useEffect(() => {
         setTimeout(() => {
             setShowArrows(true);
-        }, 200);
+        }, 300);
         setShowArrows(false);
     }, [collapsed]);
 
@@ -26,7 +26,7 @@ export const Toggle = () => {
         if (!collapsed) {
             const timer = setTimeout(() => {
                 setShowDashboard(true);
-            }, 200);
+            }, 300);
 
             return () => clearTimeout(timer);
         } else {
