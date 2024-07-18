@@ -7,13 +7,12 @@ import { UserItem, UserItemSkeleton } from "./user-item";
 import { useEffect, useState } from "react";
 
 interface FollowingProps {
-    data: (IFollow & { following: IUser })[];
+    data: IFollow[];
 }
 
 export const Following = ({ data }: FollowingProps) => {
     const { collapsed } = useSidebar((state) => state);
     const [showLabel, setShowLabel] = useState(false);
-    console.log(data);
     useEffect(() => {
         if (!collapsed) {
             const timer = setTimeout(() => {
@@ -46,7 +45,7 @@ export const Following = ({ data }: FollowingProps) => {
                         key={follow.following.id}
                         username={follow.following.username}
                         imageUrl={follow.following.imageUrl}
-                        isLive={follow.stream?.isLive}
+                        isLive={follow.following.stream?.isLive}
                     />
                 ))}
             </ul>

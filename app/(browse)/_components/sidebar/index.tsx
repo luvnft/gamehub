@@ -8,7 +8,7 @@ import { getFollowedUsers } from "@/lib/follow-service";
 export const SideBar = async () => {
     const recommended = await getRecommended();
     const following = await getFollowedUsers();
-    console.log(following);
+
     return (
         <>
             <Wrapper>

@@ -44,7 +44,12 @@ export const getFollowedUsers = async (): Promise<IFollow[]> => {
                     return {
                         id: doc.id,
                         ...followData,
-                        stream,
+                        following: {
+                            ...followData.following,
+                            stream: {
+                                isLive: stream.isLive,
+                            },
+                        },
                     };
                 }
                 return null;

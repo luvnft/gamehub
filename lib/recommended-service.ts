@@ -49,12 +49,14 @@ export const getRecommended = async (): Promise<IUser[]> => {
                         imageUrl: userData.imageUrl,
                         externalUserId: userData.externalUserId,
                         createdAt: userData.createdAt.toDate(),
-                        stream,
+                        stream: {
+                            isLive: stream.isLive,
+                        },
                     };
                 });
 
             // Wait for all promises to resolve
-            const results = await Promise.all(promises);
+            const results: IUser[] = (await Promise.all(promises)) as IUser[];
             recommendedUsers.push(...results);
 
             return recommendedUsers;
@@ -103,7 +105,9 @@ export const getRecommended = async (): Promise<IUser[]> => {
                     imageUrl: userData.imageUrl,
                     externalUserId: userData.externalUserId,
                     createdAt: userData.createdAt.toDate(),
-                    stream,
+                    stream: {
+                        isLive: stream.isLive,
+                    },
                 };
             }
             return null; // Return null if the user is not recommended

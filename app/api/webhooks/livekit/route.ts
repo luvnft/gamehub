@@ -38,7 +38,7 @@ export async function POST(req: Request) {
             streamsCollection,
             where("ingressId", "==", ingressId)
         );
-
+        console.log(ingressId);
         if (eventType === "ingress_ended" || eventType === "ingress_started") {
             const streamQuerySnapshot = await getDocs(streamQuery);
 

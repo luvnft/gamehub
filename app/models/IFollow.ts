@@ -12,6 +12,4 @@ export interface IFollow {
 
     createAt: Date;
     updatedAt: Date;
-
-    stream?: IStream;
 }
