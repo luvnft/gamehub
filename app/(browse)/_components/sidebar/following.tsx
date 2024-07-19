@@ -5,6 +5,7 @@ import { IFollow } from "@/app/models/IFollow";
 import { useSidebar } from "@/store/use-sidebar";
 import { UserItem, UserItemSkeleton } from "./user-item";
 import { useEffect, useState } from "react";
+import { FollowingIcon } from "@/components/ui/following";
 
 interface FollowingProps {
     data: IFollow[];
@@ -30,9 +31,12 @@ export const Following = ({ data }: FollowingProps) => {
 
     return (
         <div>
-            <div className="pl-6 mb-2">
+            <div className="flex items-center pl-6 mb-4">
+                <div className="pl-1">
+                    <FollowingIcon />
+                </div>
                 <p
-                    className={`text-sm w-full text-muted-foreground transition-opacity duration-300 mb-4 ${
+                    className={`ml-3 text-sm w-full text-muted-foreground transition-opacity duration-300 ${
                         showLabel ? "opacity-100" : "opacity-0"
                     }`}
                 >

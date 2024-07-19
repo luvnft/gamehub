@@ -48,13 +48,7 @@ export const UserItem = ({ username, imageUrl, isLive }: UserItemProps) => {
             className={cn("w-full h-full", isActive && "bg-accent")}
         >
             <Link href={href}>
-                <div
-                    className={cn(
-                        `flex items-center w-full gap-x-4 transition-opacity duration-300 ease-in-out ${
-                            showUsername ? "opacity-100" : "opacity-0"
-                        }`
-                    )}
-                >
+                <div className="flex items-center w-full gap-x-4 ">
                     <UserAvatar
                         imageUrl={imageUrl}
                         username={username}
