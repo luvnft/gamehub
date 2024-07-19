@@ -6,6 +6,8 @@ import {
     useRemoteParticipant,
     useTracks,
 } from "@livekit/components-react";
+import { OfflineVideo } from "./offiline-video";
+import { LoadingVideo } from "./loading-video";
 
 interface VideoProps {
     hostName: string;
@@ -21,12 +23,11 @@ export const Video = ({ hostName, hostIdentity }: VideoProps) => {
     ]).filter((track) => track.participant.identity === hostIdentity);
 
     let content;
-    console.log(hostIdentity);
-    console.log(participant);
+
     if (!participant && connectionState === ConnectionState.Connected) {
-        content = <p>Host is Offline</p>;
+        content = <OfflineVideo username={hostName} />;
     } else if (!participant || tracks.length === 0) {
-        content = <p>Loading...</p>;
+        content = <LoadingVideo label={connectionState} />;
     } else {
         content = <p>Live Video</p>;
     }
