@@ -3,8 +3,8 @@ import { IUser } from "@/app/models/IUser";
 import { useSidebar } from "@/store/use-sidebar";
 import { UserItem, UserItemSkeleton } from "./user-item";
 import { useEffect, useState } from "react";
-import { FollowingIcon } from "@/components/ui/following";
 import { RecommendedIcon } from "@/components/ui/recommended";
+import { Hint } from "@/components/hint";
 
 interface RecommendedProps {
     data: IUser[];
@@ -26,12 +26,24 @@ export const Recommended = ({ data }: RecommendedProps) => {
         }
     }, [collapsed]);
 
+    if (!data.length) {
+        return null;
+    }
+
     return (
         <div>
             <div className="flex items-center pl-6 mb-4">
-                <div className="pl-1">
-                    <RecommendedIcon />
-                </div>
+                {collapsed ? (
+                    <Hint label="Recommended" side="right" asChild>
+                        <div className="pl-1">
+                            <RecommendedIcon />
+                        </div>
+                    </Hint>
+                ) : (
+                    <div className="pl-1">
+                        <RecommendedIcon />
+                    </div>
+                )}
                 <p
                     className={`ml-3 mt-1 text-sm text-muted-foreground transition-opacity duration-300 ${
                         showLabel ? "opacity-100" : "opacity-0"

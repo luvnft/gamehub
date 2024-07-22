@@ -48,7 +48,7 @@ export const NavItem = ({
                 <div className="flex items-center gap-x-4">
                     <Icon
                         className={cn(
-                            "h-4 w-4 transition-opacity duration-300 ease-in-out",
+                            "h-[21px] w-[21px] transition-opacity duration-300 ease-in-out",
                             collapsed ? "mr-0" : "mr-2",
                             showIcon ? "opacity-100" : "opacity-0"
                         )}

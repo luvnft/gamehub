@@ -6,6 +6,7 @@ import { useSidebar } from "@/store/use-sidebar";
 import { UserItem, UserItemSkeleton } from "./user-item";
 import { useEffect, useState } from "react";
 import { FollowingIcon } from "@/components/ui/following";
+import { Hint } from "@/components/hint";
 
 interface FollowingProps {
     data: IFollow[];
@@ -32,9 +33,18 @@ export const Following = ({ data }: FollowingProps) => {
     return (
         <div>
             <div className="flex items-center pl-6 mb-4">
-                <div className="pl-1">
-                    <FollowingIcon />
-                </div>
+                {collapsed ? (
+                    <Hint label="Following" side="right" asChild>
+                        <div className="pl-1">
+                            <FollowingIcon />
+                        </div>
+                    </Hint>
+                ) : (
+                    <div className="pl-1">
+                        <FollowingIcon />
+                    </div>
+                )}
+
                 <p
                     className={`ml-3 text-sm w-full text-muted-foreground transition-opacity duration-300 ${
                         showLabel ? "opacity-100" : "opacity-0"

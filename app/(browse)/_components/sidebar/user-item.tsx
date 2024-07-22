@@ -9,6 +9,7 @@ import Link from "next/link";
 import { UserAvatar } from "@/components/user-avatar";
 import { LiveBadge } from "@/components/live-badge";
 import { useState, useEffect } from "react";
+import { Hint } from "@/components/hint";
 
 interface UserItemProps {
     username: string;
@@ -48,14 +49,23 @@ export const UserItem = ({ username, imageUrl, isLive }: UserItemProps) => {
             className={cn("w-full h-full", isActive && "bg-accent")}
         >
             <Link href={href}>
-                <div className="flex items-center w-full gap-x-4 ">
-                    <UserAvatar
-                        imageUrl={imageUrl}
-                        username={username}
-                        isLive={isLive}
-                    />
-
-                    {!collapsed && (
+                {collapsed ? (
+                    <Hint label={username} side="right" asChild>
+                        <div className="flex items-center w-full gap-x-4 ">
+                            <UserAvatar
+                                imageUrl={imageUrl}
+                                username={username}
+                                isLive={isLive}
+                            />
+                        </div>
+                    </Hint>
+                ) : (
+                    <div className="flex items-center w-full gap-x-4 ">
+                        <UserAvatar
+                            imageUrl={imageUrl}
+                            username={username}
+                            isLive={isLive}
+                        />
                         <span
                             className={`flex justify-start w-screen truncate transition-opacity duration-300 ease-in-out ${
                                 showUsername ? "opacity-100" : "opacity-0"
@@ -63,15 +73,15 @@ export const UserItem = ({ username, imageUrl, isLive }: UserItemProps) => {
                         >
                             {username}
                         </span>
-                    )}
-                    {!collapsed && showLiveBadge && (
-                        <LiveBadge
-                            className={`ml-auto transition-opacity duration-300 ease-in-out ${
-                                showLiveBadge ? "opacity-100" : "opacity-0"
-                            }`}
-                        />
-                    )}
-                </div>
+                        {showLiveBadge && (
+                            <LiveBadge
+                                className={`ml-auto transition-opacity duration-300 ease-in-out ${
+                                    showLiveBadge ? "opacity-100" : "opacity-0"
+                                }`}
+                            />
+                        )}
+                    </div>
+                )}
             </Link>
         </Button>
     );
