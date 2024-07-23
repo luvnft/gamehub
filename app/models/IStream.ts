@@ -3,7 +3,7 @@ import { IUser } from "./IUser";
 export interface IStream {
     id?: string;
     name: string;
-    thumbnailUrl?: string;
+    thumbnailUrl?: string | null;
 
     ingressId?: string;
     serverUrl?: string;

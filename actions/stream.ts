@@ -26,8 +26,11 @@ export const updateStream = async (
         if (!selfStream) {
             throw new Error("Stream not Found");
         }
-
         const validData = {
+            thumbnailUrl:
+                values?.thumbnailUrl === null
+                    ? values?.thumbnailUrl
+                    : selfStream.thumbnailUrl,
             name: values?.name ?? selfStream.name,
             isChatEnabled: values?.isChatEnabled ?? selfStream.isChatEnabled,
             isChatFollowersOnly:
