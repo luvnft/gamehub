@@ -3,8 +3,8 @@
 import { useParticipants } from "@livekit/components-react";
 import { useMemo, useState } from "react";
 import { useDebounceValue } from "usehooks-ts";
-import { Input } from "../ui/input";
-import { ScrollArea } from "../ui/scroll-area";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { CommunityItem } from "./community-item";
 import { LocalParticipant, RemoteParticipant } from "livekit-client";
 

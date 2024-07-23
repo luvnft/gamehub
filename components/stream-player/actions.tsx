@@ -1,14 +1,14 @@
 "use client";
 
 import { useAuth } from "@clerk/nextjs";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { onFollow, onUnFollow } from "@/actions/follow";
 import { useTransition } from "react";
 import { toast } from "sonner";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ActionsProps {
     hostIdentity: string;

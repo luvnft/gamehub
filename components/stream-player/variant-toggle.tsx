@@ -1,14 +1,9 @@
 "use client";
 
-import {
-    ArrowLeftFromLine,
-    ArrowRightFromLine,
-    MessageSquare,
-    Users,
-} from "lucide-react";
+import { MessageSquare, Users } from "lucide-react";
 
-import { Hint } from "../hint";
-import { Button } from "../ui/button";
+import { Hint } from "@/components/hint";
+import { Button } from "@/components/ui/button";
 import { ChatVariant, useChatSidebar } from "@/store/use-chat-sidebar";
 
 export const VariantToggle = () => {

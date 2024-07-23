@@ -4,11 +4,11 @@ import {
     useParticipants,
     useRemoteParticipant,
 } from "@livekit/components-react";
-import { UserAvatar, UserAvatarSkeleton } from "../user-avatar";
-import { VerifiedMark } from "../verified-mark";
+import { UserAvatar, UserAvatarSkeleton } from "@/components/user-avatar";
+import { VerifiedMark } from "@/components/verified-mark";
 import { UserIcon } from "lucide-react";
 import { Actions, ActionsSkeleton } from "./actions";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface HeaderProps {
     imageUrl: string;

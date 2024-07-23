@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Info } from "lucide-react";
 
-import { Hint } from "../hint";
+import { Hint } from "@/components/hint";
 
 interface ChatInfoProps {
     isChatDelayed: boolean;
