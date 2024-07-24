@@ -43,8 +43,8 @@ export const getRecommended = async (): Promise<IUser[]> => {
                     const stream: IStream = (await getStreamByUserId(
                         doc.id
                     )) as IStream;
-
                     return {
+                        id: doc.id,
                         username: userData.username,
                         imageUrl: userData.imageUrl,
                         externalUserId: userData.externalUserId,

@@ -4,15 +4,7 @@ import { IUser } from "@/app/models/IUser";
 import { getSelf } from "@/lib/auth-service";
 import { revalidatePath } from "next/cache";
 import { firestore } from "@/lib/firebaseConfig";
-import {
-    collection,
-    getDocs,
-    where,
-    query,
-    updateDoc,
-    doc,
-    getDoc,
-} from "firebase/firestore";
+import { collection, updateDoc, doc, getDoc } from "firebase/firestore";
 
 export const updateUser = async (values: Partial<IUser>) => {
     try {

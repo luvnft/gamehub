@@ -29,7 +29,6 @@ export const Recommended = ({ data }: RecommendedProps) => {
     if (!data.length) {
         return null;
     }
-
     return (
         <div>
             <div className="flex items-center pl-6 mb-4">

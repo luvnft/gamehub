@@ -8,6 +8,7 @@ import {
     doc,
 } from "firebase/firestore";
 import { IUser } from "@/app/models/IUser";
+import { IStream } from "@/app/models/IStream";
 
 export const getUserByUsername = async (
     username: string
@@ -17,17 +18,34 @@ export const getUserByUsername = async (
         const usersCollection = collection(firestore, "users");
 
         // Create a query to find the user by username
-        const q = query(usersCollection, where("username", "==", username));
-        const querySnapshot = await getDocs(q);
+        const userQuery = query(
+            usersCollection,
+            where("username", "==", username)
+        );
+        const userQuerySnapshot = await getDocs(userQuery);
 
         // Check if any document was found
-        if (querySnapshot.empty) {
+        if (userQuerySnapshot.empty) {
             throw new Error("User not found");
         }
 
         // Get the first found document and convert it to an IUser object
-        const userDoc = querySnapshot.docs[0];
+        const userDoc = userQuerySnapshot.docs[0];
         const userData = userDoc.data() as IUser;
+
+        // Get the stream reference
+        const streamsCollection = collection(firestore, "streams");
+
+        // Create a query to find the user by username
+        const streamQuery = query(
+            streamsCollection,
+            where("userId", "==", userDoc.id)
+        );
+        const streamQuerySnapshot = await getDocs(streamQuery);
+
+        const streamDoc = streamQuerySnapshot.docs[0];
+        const stream = streamDoc.data() as IStream;
+
         const user: IUser = {
             id: userDoc.id,
             username: userData.username,
@@ -36,6 +54,7 @@ export const getUserByUsername = async (
             createdAt: userData.createdAt,
             updatedAt: userData.updatedAt,
             bio: userData.bio,
+            stream,
             blockedBy: userData.blockedBy || [],
             blocking: userData.blocking || [],
             followedBy: userData.followedBy || [],

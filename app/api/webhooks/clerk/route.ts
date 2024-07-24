@@ -82,7 +82,6 @@ export async function POST(req: Request) {
 
     if (eventType === "user.updated") {
         try {
-            const usersCollection = collection(firestore, "users");
             const userQuery = query(
                 usersCollection,
                 where("externalUserId", "==", payload.data.id)
@@ -91,11 +90,25 @@ export async function POST(req: Request) {
 
             if (!querySnapshot.empty) {
                 const userDocRef = querySnapshot.docs[0].ref;
-                await updateDoc(userDocRef, {
+                const userUpdated = {
                     username: payload.data.username,
                     imageUrl: payload.data.image_url,
                     updatedAt: new Date().toISOString(),
-                });
+                };
+                await updateDoc(userDocRef, userUpdated);
+
+                // Update the stream with the user
+                const streamQuery = query(
+                    streamsCollection,
+                    where("userId", "==", userDocRef.id)
+                );
+                const streamQuerySnapshot = await getDocs(streamQuery);
+                const streamDocRef = streamQuerySnapshot.docs[0].ref;
+
+                const newQuerySnapshot = await getDocs(userQuery);
+                const user = newQuerySnapshot.docs[0].data();
+
+                await updateDoc(streamDocRef, { user: user });
             } else {
                 console.log(
                     "User not found for update:",
@@ -109,14 +122,23 @@ export async function POST(req: Request) {
 
     if (eventType === "user.deleted") {
         try {
-            const q = query(
+            const queryDeleteUser = query(
                 usersCollection,
                 where("externalUserId", "==", payload.data.id)
             );
-            const querySnapshot = await getDocs(q);
+            const querySnapshot = await getDocs(queryDeleteUser);
             if (!querySnapshot.empty) {
                 const userDocRef = querySnapshot.docs[0].ref;
                 await deleteDoc(userDocRef);
+
+                const queryDeleteStream = query(
+                    streamsCollection,
+                    where("userId", "==", querySnapshot.docs[0].id)
+                );
+                const querySnapshotStream = await getDocs(queryDeleteStream);
+
+                const streamDocRef = querySnapshotStream.docs[0].ref;
+                await deleteDoc(streamDocRef);
             } else {
                 console.log(
                     "User not found with externalUserId:",
