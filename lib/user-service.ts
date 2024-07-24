@@ -35,6 +35,11 @@ export const getUserByUsername = async (
             externalUserId: userData.externalUserId,
             createdAt: userData.createdAt,
             updatedAt: userData.updatedAt,
+            bio: userData.bio,
+            blockedBy: userData.blockedBy || [],
+            blocking: userData.blocking || [],
+            followedBy: userData.followedBy || [],
+            following: userData.following || [],
         };
 
         return user;
