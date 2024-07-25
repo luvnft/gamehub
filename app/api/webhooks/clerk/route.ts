@@ -57,6 +57,7 @@ export async function POST(req: Request) {
     const eventType = evt.type;
     const usersCollection = collection(firestore, "users");
     const streamsCollection = collection(firestore, "streams");
+    console.log(eventType);
 
     if (eventType === "user.created") {
         try {
@@ -93,7 +94,7 @@ export async function POST(req: Request) {
                 const userUpdated = {
                     username: payload.data.username,
                     imageUrl: payload.data.image_url,
-                    updatedAt: new Date().toISOString(),
+                    updatedAt: new Date(),
                 };
                 await updateDoc(userDocRef, userUpdated);
 

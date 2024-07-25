@@ -34,6 +34,7 @@ export const getFollowedUsers = async (): Promise<IFollow[]> => {
         const followedUsersPromises = followedUsersQuerySnapshot.docs.map(
             async (doc) => {
                 const followData = doc.data() as IFollow;
+                console.log(followData);
                 const followingId = followData.followingId;
 
                 // Verify if user is not blocked
@@ -58,6 +59,7 @@ export const getFollowedUsers = async (): Promise<IFollow[]> => {
 
         // Wait to resolve all promises
         const followedUsers = await Promise.all(followedUsersPromises);
+        console.log(followedUsers);
 
         // Filter null (blocked users)
         return followedUsers.filter((user) => user !== null) as IFollow[];

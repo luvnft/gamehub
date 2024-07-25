@@ -37,7 +37,6 @@ export const resetIngresses = async (hostIdentity: string) => {
     });
 
     const rooms = await roomService.listRooms([hostIdentity]);
-
     for (const room of rooms) {
         await roomService.deleteRoom(room.name);
     }
@@ -53,6 +52,7 @@ export const createIngress = async (ingressType: IngressInput) => {
     const self = (await getSelf()) as IUser;
 
     await resetIngresses(self.id!);
+
     const options: CreateIngressOptions = {
         name: self.username,
         roomName: self.id,
@@ -74,6 +74,7 @@ export const createIngress = async (ingressType: IngressInput) => {
     }
 
     const ingress = await ingressClient.createIngress(ingressType, options);
+    console.log(ingress);
     if (!ingress || !ingress.url || !ingress.streamKey) {
         throw new Error("Failed to create ingress");
     }

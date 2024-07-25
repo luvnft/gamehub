@@ -34,7 +34,6 @@ export const ConnectModal = () => {
     const closeRef = useRef<ElementRef<"button">>(null);
     const [isPending, startTransition] = useTransition();
     const [ingressType, setIngressType] = useState<IngressType>(RTMP);
-
     const onSubmit = () => {
         startTransition(() => {
             createIngress(parseInt(ingressType))
