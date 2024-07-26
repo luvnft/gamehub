@@ -1,15 +1,3 @@
-import { firestore } from "@/lib/firebaseConfig";
-import {
-    collection,
-    query,
-    getDocs,
-    where,
-    doc,
-    setDoc,
-    getDoc,
-    deleteDoc,
-    updateDoc,
-} from "firebase/firestore";
 import { getSelf } from "./auth-service";
 import { IUser } from "@/app/models/IUser";
 import { IStream } from "@/app/models/IStream";

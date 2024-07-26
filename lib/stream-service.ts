@@ -1,5 +1,5 @@
 import { firestore } from "@/lib/firebaseConfig";
-import { collection, getDocs, where, query, orderBy } from "firebase/firestore";
+import { collection, getDocs, where, query } from "firebase/firestore";
 import { IStream } from "@/app/models/IStream";
 import { stringTimestampToDate } from "./feed-service";
 
