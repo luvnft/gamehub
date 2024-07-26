@@ -30,7 +30,7 @@ export const Actions = ({
             onFollow(hostIdentity)
                 .then((data) =>
                     toast.success(
-                        `You have unfollowed ${data.following.username}`
+                        `You are now following ${data.following.username}`
                     )
                 )
                 .catch(() => toast.error("Something went wrong"));
@@ -42,7 +42,7 @@ export const Actions = ({
             onUnFollow(hostIdentity)
                 .then((data) =>
                     toast.success(
-                        `You are now following ${data.following.username}`
+                        `You have unfollowed ${data.following.username}`
                     )
                 )
                 .catch(() => toast.error("Something went wrong"));

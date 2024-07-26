@@ -10,9 +10,26 @@ import {
 import { IUser } from "@/app/models/IUser";
 import { IStream } from "@/app/models/IStream";
 
+interface StreamPropsClient extends IStream {
+    id: string;
+    username: string;
+    bio: string | undefined;
+    imageUrl: string;
+    isLive: boolean;
+    isChatDelayed: boolean;
+    isChatFollowersOnly: boolean;
+    isChatEnabled: boolean;
+    thumbnailUrl: string;
+    name: string;
+}
+
+interface UserWithStreamPropsClient extends IUser {
+    streamPropsClient: StreamPropsClient;
+}
+
 export const getUserByUsername = async (
     username: string
-): Promise<IUser | null> => {
+): Promise<UserWithStreamPropsClient> => {
     try {
         // Get a reference to the users collection in Firestore
         const usersCollection = collection(firestore, "users");
@@ -45,8 +62,16 @@ export const getUserByUsername = async (
 
         const streamDoc = streamQuerySnapshot.docs[0];
         const stream = streamDoc.data() as IStream;
+        const streamPropsClient: StreamPropsClient = {
+            isLive: stream.isLive,
+            isChatDelayed: stream.isChatDelayed,
+            isChatEnabled: stream.isChatEnabled,
+            isChatFollowersOnly: stream.isChatFollowersOnly,
+            thumbnailUrl: stream.thumbnailUrl,
+            name: stream.name,
+        } as StreamPropsClient;
 
-        const user: IUser = {
+        const user: UserWithStreamPropsClient = {
             id: userDoc.id,
             username: userData.username,
             imageUrl: userData.imageUrl,
@@ -54,7 +79,7 @@ export const getUserByUsername = async (
             createdAt: userData.createdAt,
             updatedAt: userData.updatedAt,
             bio: userData.bio,
-            stream,
+            streamPropsClient,
             blockedBy: userData.blockedBy || [],
             blocking: userData.blocking || [],
             followedBy: userData.followedBy || [],
@@ -64,8 +89,8 @@ export const getUserByUsername = async (
         return user;
     } catch (error) {
         console.error("Error fetching user by username:", error);
+        throw new Error("Internal Error");
     }
-    return null;
 };
 
 export const getUserById = async (id: string): Promise<IUser> => {

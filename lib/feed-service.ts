@@ -1,5 +1,3 @@
-"use server";
-
 import { getSelf } from "./auth-service";
 import { IUser } from "@/app/models/IUser";
 import { IStream } from "@/app/models/IStream";
@@ -67,9 +65,10 @@ export const getStreams = async (): Promise<StreamPropsClient[]> => {
     return streamPropsClient;
 };
 
-const stringTimestampToDate = (str: string): Date => {
+export const stringTimestampToDate = (str: string): Date => {
     const match = str.match(/seconds=(\d+), nanoseconds=(\d+)/);
     const seconds = parseInt(match![1], 10);
     const nanoseconds = parseInt(match![2], 10);
-    return new Date(seconds * 1000 + nanoseconds / 1000000);
+    const date = new Date(seconds * 1000 + nanoseconds / 1000000);
+    return date;
 };
