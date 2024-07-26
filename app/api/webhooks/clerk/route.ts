@@ -57,7 +57,6 @@ export async function POST(req: Request) {
     const eventType = evt.type;
     const usersCollection = collection(firestore, "users");
     const streamsCollection = collection(firestore, "streams");
-    console.log(eventType);
 
     if (eventType === "user.created") {
         try {

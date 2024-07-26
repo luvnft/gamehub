@@ -59,7 +59,6 @@ export const getFollowedUsers = async (): Promise<IFollow[]> => {
 
         // Wait to resolve all promises
         const followedUsers = await Promise.all(followedUsersPromises);
-        console.log(followedUsers);
 
         // Filter null (blocked users)
         return followedUsers.filter((user) => user !== null) as IFollow[];
