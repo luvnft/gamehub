@@ -1,5 +1,4 @@
 import { IStream } from "@/app/models/IStream";
-import { LiveBadge } from "@/components/live-badge";
 import { Thumbnail, ThumbnailSkeleton } from "@/components/thumbnail";
 import { Skeleton } from "@/components/ui/skeleton";
 import { UserAvatar, UserAvatarSkeleton } from "@/components/user-avatar";

@@ -3,6 +3,7 @@ import { IUser } from "@/app/models/IUser";
 import { IStream } from "@/app/models/IStream";
 import { getAllStreams } from "./stream-service";
 import { getUserById } from "./user-service";
+import { removeBlockedUsers } from "./block-service";
 
 interface StreamPropsClient extends IStream {
     id: string;
@@ -25,17 +26,9 @@ export const getStreams = async (): Promise<StreamPropsClient[]> => {
     let streams: IStream[] = await getAllStreams();
 
     if (userId) {
-        // Load by user id
-        // We have to check first if the stream user is blocked by the current user.
-
-        // Filter blocked streams by the user
-        const filteredStreams = streams.filter(async (stream) => {
-            // Get the user by the stream id
-            const user = await getUserById(stream.userId);
-            return !(user.blocking! || []).some((user) => user.id === userId);
-        });
-
-        streams = filteredStreams;
+        // Get id's list of blocked users
+        const selfUser = (await getSelf()) as IUser;
+        streams = await removeBlockedUsers(selfUser, streams);
     }
     // Order by isLive, updatedAt desc.
     streams.sort((a, b) => {

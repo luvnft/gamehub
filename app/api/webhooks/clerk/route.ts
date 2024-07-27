@@ -13,6 +13,7 @@ import {
 } from "firebase/firestore";
 import { IUser } from "@/app/models/IUser";
 import { IStream, getStreamDefaultValues } from "@/app/models/IStream";
+import { resetIngresses } from "@/actions/ingress";
 
 export async function POST(req: Request) {
     const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
@@ -121,6 +122,7 @@ export async function POST(req: Request) {
     }
 
     if (eventType === "user.deleted") {
+        await resetIngresses(payload.data.id);
         try {
             const queryDeleteUser = query(
                 usersCollection,

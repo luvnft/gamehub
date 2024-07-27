@@ -16,6 +16,7 @@ import { getUserById } from "./user-service";
 
 import { IUser } from "@/app/models/IUser";
 import { IBlock } from "@/app/models/IBlock";
+import { IStream } from "@/app/models/IStream";
 
 export const isBlockedByUser = async (id: string) => {
     try {
@@ -222,4 +223,27 @@ export const getBlockedUsers = async (): Promise<IBlock[]> => {
     });
 
     return blockedUsers;
+};
+
+export const removeBlockedUsers = async (
+    selfUser: IUser,
+    streams: IStream[]
+): Promise<IStream[]> => {
+    const blockedUserIds = (selfUser.blocking || []).map((user) => user.id);
+
+    // Filter all streams to delete those user is in blocked list
+    streams = await Promise.all(
+        streams.map(async (stream) => {
+            // Get the user associated with the stream
+            const user = await getUserById(stream.userId);
+            // Return stream if the user is NOT blocked.
+            return !blockedUserIds.includes(user.id) ? stream : undefined;
+        })
+    ).then((filteredStreams) =>
+        filteredStreams.filter(
+            (stream): stream is IStream => stream !== undefined
+        )
+    );
+
+    return streams;
 };

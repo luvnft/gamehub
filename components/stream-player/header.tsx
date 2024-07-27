@@ -89,7 +89,9 @@ export const HeaderSkeleton = () => {
                     <Skeleton className="h-4 w-24" />
                 </div>
             </div>
-            <ActionsSkeleton />
+            <div className="flex justify-normal gap-x-4">
+                <ActionsSkeleton />
+            </div>
         </div>
     );
 };

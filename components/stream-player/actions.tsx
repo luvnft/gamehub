@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 import Swal from "sweetalert2";
 import { onBlock } from "@/actions/block";
+import { getSelf } from "@/lib/auth-service";
 
 interface ActionsProps {
     hostIdentity: string;
@@ -59,7 +60,7 @@ export const Actions = ({
         isFollowing ? handleUnFollow() : handleFollow();
     };
 
-    const handleBlock = () => {
+    const handleBlock = async () => {
         Swal.fire({
             title: "Are you sure?",
             text: `Do you really want to block ${username}?`,
@@ -92,15 +93,18 @@ export const Actions = ({
 
     return (
         <>
-            <Button
-                onClick={handleBlock}
-                variant="destructive"
-                disabled={isPending}
-                className="w-full lg:w-auto"
-            >
-                <Ban className="h-4 w-4 mr-2" />
-                Block
-            </Button>
+            {userId && (
+                <Button
+                    onClick={handleBlock}
+                    variant="destructive"
+                    disabled={isPending}
+                    className="w-full lg:w-auto"
+                >
+                    <Ban className="h-4 w-4 mr-2" />
+                    Block
+                </Button>
+            )}
+
             <Button
                 disabled={isPending || isHost}
                 onClick={toggleFollow}
@@ -121,5 +125,10 @@ export const Actions = ({
 };
 
 export const ActionsSkeleton = () => {
-    return <Skeleton className="h-10 w-full lg:w-24" />;
+    return (
+        <>
+            <Skeleton className="h-10 w-full lg:w-24" />
+            <Skeleton className="h-10 w-full lg:w-24" />
+        </>
+    );
 };
