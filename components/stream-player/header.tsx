@@ -67,11 +67,14 @@ export const Header = ({
                     )}
                 </div>
             </div>
-            <Actions
-                isFollowing={isFollowing}
-                hostIdentity={hostIdentity}
-                isHost={isHost}
-            />
+            <div className="flex justify-normal gap-x-4">
+                <Actions
+                    isFollowing={isFollowing}
+                    hostIdentity={hostIdentity}
+                    isHost={isHost}
+                    username={hostName}
+                />
+            </div>
         </div>
     );
 };

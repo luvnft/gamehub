@@ -202,3 +202,24 @@ export const unblockUser = async (id: string): Promise<IBlock> => {
         throw new Error("Failed to unblock user");
     }
 };
+
+export const getBlockedUsers = async (): Promise<IBlock[]> => {
+    const blockedUsers: IBlock[] = [];
+
+    const self = (await getSelf()) as IUser;
+
+    const blocksCollection = collection(firestore, "blocks");
+    const existingBlockQuery = query(
+        blocksCollection,
+        where("blockerId", "==", self.id)
+    );
+
+    const existingBlockSnapshot = await getDocs(existingBlockQuery);
+
+    existingBlockSnapshot.docs.forEach((doc) => {
+        const block = doc.data() as IBlock;
+        blockedUsers.push(block);
+    });
+
+    return blockedUsers;
+};

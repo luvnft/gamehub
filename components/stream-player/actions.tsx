@@ -2,29 +2,32 @@
 
 import { useAuth } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
-import { Heart } from "lucide-react";
+import { Ban, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { onFollow, onUnFollow } from "@/actions/follow";
 import { useTransition } from "react";
 import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
+import Swal from "sweetalert2";
+import { onBlock } from "@/actions/block";
 
 interface ActionsProps {
     hostIdentity: string;
     isFollowing: boolean;
     isHost: boolean;
+    username: string;
 }
 
 export const Actions = ({
     hostIdentity,
     isFollowing,
     isHost,
+    username,
 }: ActionsProps) => {
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
     const { userId } = useAuth();
-
     const handleFollow = () => {
         startTransition(() => {
             onFollow(hostIdentity)
@@ -56,22 +59,64 @@ export const Actions = ({
         isFollowing ? handleUnFollow() : handleFollow();
     };
 
+    const handleBlock = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: `Do you really want to block ${username}?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            color: "#ffffff",
+            confirmButtonText: "Yes, block it!",
+            background: "#1f2128",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                startTransition(() => {
+                    onBlock(hostIdentity)
+                        .then(() => {
+                            Swal.fire({
+                                title: "Blocked!",
+                                text: `${username} has been blocked`,
+                                icon: "success",
+                                background: "#1f2128",
+                                color: "#ffffff",
+                            });
+                            router.push("/");
+                        })
+                        .catch(() => toast.error("Something went wrong"));
+                });
+            }
+        });
+    };
+
     return (
-        <Button
-            disabled={isPending || isHost}
-            onClick={toggleFollow}
-            variant="primary"
-            size="sm"
-            className="w-full lg:w-auto"
-        >
-            <Heart
-                className={cn(
-                    "h-4 w-4 mr-2",
-                    isFollowing ? "fill-white" : "fill-none"
-                )}
-            />
-            {isFollowing ? "Unfollow" : "Follow"}
-        </Button>
+        <>
+            <Button
+                onClick={handleBlock}
+                variant="destructive"
+                disabled={isPending}
+                className="w-full lg:w-auto"
+            >
+                <Ban className="h-4 w-4 mr-2" />
+                Block
+            </Button>
+            <Button
+                disabled={isPending || isHost}
+                onClick={toggleFollow}
+                variant="primary"
+                size="sm"
+                className="w-full lg:w-auto"
+            >
+                <Heart
+                    className={cn(
+                        "h-4 w-4 mr-2",
+                        isFollowing ? "fill-white" : "fill-none"
+                    )}
+                />
+                {isFollowing ? "Unfollow" : "Follow"}
+            </Button>
+        </>
     );
 };
 
