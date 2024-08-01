@@ -93,7 +93,7 @@ export const Actions = ({
 
     return (
         <>
-            {userId && (
+            {userId && !isHost && (
                 <Button
                     onClick={handleBlock}
                     variant="destructive"

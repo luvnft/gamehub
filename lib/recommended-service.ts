@@ -22,7 +22,6 @@ export const getRecommended = async (): Promise<IUser[]> => {
         const self = await getSelf();
         userId = self.id;
     } catch (error) {
-        console.error("Error getting self:", error);
     }
 
     try {
