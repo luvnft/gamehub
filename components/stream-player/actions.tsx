@@ -115,7 +115,7 @@ export const Actions = ({
                     disabled={isPending}
                     menuItems={[
                         {
-                            icon: Ban,
+                            Icon: Ban,
                             label: "Block",
                             onClick: handleBlock,
                             bgColor: "#691212",

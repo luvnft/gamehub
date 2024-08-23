@@ -4,7 +4,7 @@ import clsx from "clsx";
 
 interface OverflowMenuProps {
     menuItems: {
-        icon?: React.ElementType;
+        Icon?: React.ElementType;
         label: string;
         onClick: () => void;
         bgColor?: string;
@@ -72,11 +72,11 @@ const OverflowMenu = ({
                     },
                 }}
             >
-                {menuItems.map((menuItem, index) => (
+                {menuItems.map(({ Icon, label, onClick, bgColor }, index) => (
                     <MenuItem
                         key={index}
                         disabled={disabled}
-                        onClick={handleClickMenuItem(menuItem.onClick)}
+                        onClick={handleClickMenuItem(onClick)}
                         sx={{
                             color: "#FFF5EA",
                             fontSize: "14px",
@@ -84,17 +84,15 @@ const OverflowMenu = ({
                             borderRadius: "8px",
                             transition: "background-color 0.3s, opacity 0.3s",
                             "&:hover": {
-                                backgroundColor: menuItem.bgColor,
+                                backgroundColor: bgColor,
                                 color: "#FFFFFF",
                                 opacity: 0.8,
                             },
                         }}
                     >
-                        {menuItem.icon && (
-                            <menuItem.icon className="h-4 w-4 mr-2" />
-                        )}
+                        {Icon && <Icon className="h-4 w-4 mr-2" />}
 
-                        {menuItem.label}
+                        {label}
                     </MenuItem>
                 ))}
             </Menu>
