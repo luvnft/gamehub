@@ -9,9 +9,14 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "@carbon/react": "^1.64.0",
         "@clerk/nextjs": "^5.2.2",
         "@clerk/themes": "^2.1.10",
+        "@emotion/react": "^11.13.3",
+        "@emotion/styled": "^11.13.0",
         "@livekit/components-react": "^1.4.2",
+        "@mui/icons-material": "^5.16.7",
+        "@mui/material": "^5.16.7",
         "@radix-ui/react-avatar": "^1.1.0",
         "@radix-ui/react-dialog": "^1.1.1",
         "@radix-ui/react-label": "^2.1.0",
@@ -27,6 +32,7 @@
         "@types/sweetalert": "^2.0.4",
         "@types/uuid": "^10.0.0",
         "@uploadthing/react": "^6.7.2",
+        "carbon-components-react": "^8.64.1",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.1",
         "date-fns": "^3.6.0",

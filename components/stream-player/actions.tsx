@@ -11,7 +11,8 @@ import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 import Swal from "sweetalert2";
 import { onBlock } from "@/actions/block";
-import { getSelf } from "@/lib/auth-service";
+import OverflowMenu from "./overflow-menu";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 interface ActionsProps {
     hostIdentity: string;
@@ -93,18 +94,6 @@ export const Actions = ({
 
     return (
         <>
-            {userId && !isHost && (
-                <Button
-                    onClick={handleBlock}
-                    variant="destructive"
-                    disabled={isPending}
-                    className="w-full lg:w-auto"
-                >
-                    <Ban className="h-4 w-4 mr-2" />
-                    Block
-                </Button>
-            )}
-
             <Button
                 disabled={isPending || isHost}
                 onClick={toggleFollow}
@@ -120,6 +109,20 @@ export const Actions = ({
                 />
                 {isFollowing ? "Unfollow" : "Follow"}
             </Button>
+            {userId && !isHost && (
+                <OverflowMenu
+                    iconMenu={MoreVertIcon}
+                    disabled={isPending}
+                    menuItems={[
+                        {
+                            icon: Ban,
+                            label: "Block",
+                            onClick: handleBlock,
+                            bgColor: "#691212",
+                        },
+                    ]}
+                />
+            )}
         </>
     );
 };
