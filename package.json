@@ -32,7 +32,6 @@
         "@types/sweetalert": "^2.0.4",
         "@types/uuid": "^10.0.0",
         "@uploadthing/react": "^6.7.2",
-        "carbon-components-react": "^8.64.1",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.1",
         "date-fns": "^3.6.0",
