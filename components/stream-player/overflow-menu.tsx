@@ -43,11 +43,11 @@ const OverflowMenu = ({
                 className={clsx({
                     "opacity-50 cursor-default": disabled,
                 })}
-                disabled={disabled} // Esto asegura que el botón sea no interactivo
+                disabled={disabled}
                 sx={{
                     "&.Mui-disabled": {
-                        bgcolor: "transparent", // Asegura que el fondo sea transparente
-                        color: disabled ? "#1976d2" : "inherit", // Color del icono
+                        bgcolor: "transparent",
+                        color: disabled ? "#1976d2" : "inherit",
                     },
                 }}
             >
