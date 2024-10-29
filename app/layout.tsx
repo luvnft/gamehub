@@ -10,9 +10,9 @@ import { ThemeProvider } from "@/components/themes-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "Gamehub",
+    title: "Stream",
     description:
-        "Live streaming platform focused on video games and related content, where users can watch and broadcast in real time, interact with other viewers and creators, and follow their favorite streamers.",
+        "Live streaming platform focused on W3W deliveries and related content, where users can watch and broadcast in real time, interact with other viewers and creators, and follow their favorite W3W delivery streamers.",
     icons: {
         icon: "/favicon.ico",
     },

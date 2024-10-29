@@ -15,15 +15,15 @@ export const Logo = () => {
                 <Link href="/">
                     <Image
                         src="/spooky.svg"
-                        alt="Gamehub"
+                        alt="Stream"
                         height="80"
                         width="80"
                     />
                 </Link>
             </div>
             <div className={cn("flex flex-col items-center", font.className)}>
-                <p className="text-xl font-semibold">Gamehub</p>
-                <p className="text-sm text-muted-foreground">Let&apos;s Play</p>
+                <p className="text-xl font-semibold">Stream</p>
+                <p className="text-sm text-muted-foreground">W3W Deliv3ry Drivers</p>
             </div>
         </div>
     );
